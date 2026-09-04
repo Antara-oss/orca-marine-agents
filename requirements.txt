@@ -1,0 +1,8 @@
+streamlit
+folium
+streamlit-folium
+numpy
+xarray
+netCDF4
+pydantic
+matplotlib
