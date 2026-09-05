@@ -19,8 +19,8 @@ except Exception:
     pass
 
 def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicReport:
-    try:
-        if api_key:
+    if api_key and api_key.startswith('AIzaSy'):
+        try:
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=api_key)
@@ -35,8 +35,10 @@ def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicRepo
                 )
             )
             return HydrodynamicReport.model_validate_json(res.text)
-    except Exception:
-        pass
+        except Exception:
+            pass
+
+    # Autonomous Failover Logic
     is_upwelling = telemetry.mean_sst < 27.0 and telemetry.wind_speed > 6.0
     return HydrodynamicReport(
         upwelling_detected=is_upwelling,
@@ -46,8 +48,8 @@ def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicRepo
     )
 
 def run_biogeochemical_agent(telemetry: AnomalyDetectionEvent, hydro: HydrodynamicReport) -> BiogeochemicalReport:
-    try:
-        if api_key:
+    if api_key and api_key.startswith('AIzaSy'):
+        try:
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=api_key)
@@ -62,8 +64,10 @@ def run_biogeochemical_agent(telemetry: AnomalyDetectionEvent, hydro: Hydrodynam
                 )
             )
             return BiogeochemicalReport.model_validate_json(res.text)
-    except Exception:
-        pass
+        except Exception:
+            pass
+
+    # Autonomous Failover Logic
     taxa = 'Noctiluca scintillans' if telemetry.peak_chlorophyll > 5.0 else 'Trichodesmium erythraeum'
     hypoxia = 'CRITICAL' if telemetry.z_score >= 3.0 else ('MODERATE' if telemetry.z_score >= 1.5 else 'LOW')
     return BiogeochemicalReport(
@@ -74,8 +78,8 @@ def run_biogeochemical_agent(telemetry: AnomalyDetectionEvent, hydro: Hydrodynam
     )
 
 def run_synthesizer_agent(telemetry: AnomalyDetectionEvent, hydro: HydrodynamicReport, bio: BiogeochemicalReport) -> TacticalAdvisoryBulletin:
-    try:
-        if api_key:
+    if api_key and api_key.startswith('AIzaSy'):
+        try:
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=api_key)
@@ -90,8 +94,10 @@ def run_synthesizer_agent(telemetry: AnomalyDetectionEvent, hydro: HydrodynamicR
                 )
             )
             return TacticalAdvisoryBulletin.model_validate_json(res.text)
-    except Exception:
-        pass
+        except Exception:
+            pass
+
+    # Autonomous Failover Logic
     tier = 'TIER-3 EMERGENCY ACTION' if telemetry.z_score >= 3.0 else 'TIER-2 ADVISORY ALERT'
     lat_hex = hex(int(telemetry.center_lat * 100))[2:].zfill(4)
     lon_hex = hex(int(telemetry.center_lon * 100))[2:].zfill(4)
