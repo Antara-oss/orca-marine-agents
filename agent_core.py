@@ -2,115 +2,41 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 from dotenv import load_dotenv
-from schemas import (
-    AnomalyDetectionEvent,
-    HydrodynamicReport,
-    BiogeochemicalReport,
-    TacticalAdvisoryBulletin,
-)
+from schemas import ([õ€X[Q]X›[€ë]ô[ùàYõŸ[ò[ZX‘ô\‹ùàö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ùàX›Xÿ[Yö\€‹ûPù[][ãäBÇõÿYŸ›[ùä
+Bò\W⁄Ÿ^HH‹ÀôŸ][ùä	——SRSíW–TW“—VI BùûNÇà[\‹ù›ôX[[]\»›àYà\ÿ]ä›úŸX‹ô]»äH[ôë—SRSíW–TW“—VHà[à›úŸX‹ô]ŒÇà\W⁄Ÿ^HH›úŸX‹ô]÷»ë—SRSíW–TW“—VHóBô^Ÿ\^Ÿ\[€éÇà\‹¬ÇôYàù[ó⁄YõŸ[ò[ZX◊ÿYŸ[ù
+[[Y]ûNà[õ€X[Q]X›[€ë]ô[ù
+HOàYõŸ[ò[ZX‘ô\‹ùÇàûNÇàYà\W⁄Ÿ^NÇàúõ€H€€Ÿ€H[\‹ùŸ[òZBàúõ€H€€Ÿ€KôŸ[òZH[\‹ù\\¬à€Y[ùHŸ[òZKê€Y[ù
+\W⁄Ÿ^OX\W⁄Ÿ^JBàô\»H€Y[ùõ[Ÿ[ÀôŸ[ô\ò]Wÿ€€ù[ù
+à[Ÿ[IŸŸ[Z[öKLãçKYõ\⁄	Àà€€ù[ùœYâ–[ò[^ôHX\ö[ôH[õ€X[H]›[[Y]ûKòŸ[ù\ó€]Sã›[[Y]ûKòŸ[ù\ó€€üQK‘’›[[Y]ûKõYX[ó‹‹›PÀ⁄[ô›[[Y]ûKù⁄[ô‹‹YY[K‹Àã\ÿ€‹ôH›[[Y]ûKûó‹ÿ€‹ô_KâÀà€€ôöYœ]\\ÀëŸ[ô\ò]P€€ù[ù€€ôöY àô\‹€úŸW€Z[YW›\OIÿ\Xÿ][€ã⁄ú€€âÀàô\‹€úŸW‹ÿ⁄[XORYõŸ[ò[ZX‘ô\‹ùà[\\ò]\ôOLåKà
+Bà
+Bàô]\õàYõŸ[ò[ZX‘ô\‹ùõ[Ÿ[›ò[Y]W⁄ú€€äô\Àù^
+Bà^Ÿ\^Ÿ\[€éÇà\‹¬à\◊›\Ÿ[[ô»H[[Y]ûKõYX[ó‹‹›çÀå[ô[[Y]ûKù⁄[ô‹‹YYàãåàô]\õàYõŸ[ò[ZX‘ô\‹ù
+à\Ÿ[[ô◊Ÿ]X›YZ\◊›\Ÿ[[ôÀàZ€X[ó›ò[ú‹‹ùÿ\‹Ÿ\‹€Y[ùI”Ÿôú⁄‹ôHZ€X[àöYù€€ôö\õYY[€ô»€ÿ\›[⁄[àò][Y]ûKâÀà\õ[ÿ€[ôWŸ[ò[ZX‹œI‘⁄ÿ[[ô»\õ[ÿ€[ôHÿúŸ\ùôY]åLÃH\[ù\ôòXŸKâÀà\⁄Xÿ[ÿ€€ôöY[òŸW‹ÿ€‹ôOLéMYà\◊›\Ÿ[[ô»[ŸHéÇà
+BÇôYàù[óÿö[ŸŸ[ÿ⁄[ZXÿ[ÿYŸ[ù
+[[Y]ûNà[õ€X[Q]X›[€ë]ô[ùYõŒàYõŸ[ò[ZX‘ô\‹ù
+HOàö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ùÇàûNÇàYà\W⁄Ÿ^NÇàúõ€H€€Ÿ€H[\‹ùŸ[òZBàúõ€H€€Ÿ€KôŸ[òZH[\‹ù\\¬à€Y[ùHŸ[òZKê€Y[ù
+\W⁄Ÿ^OX\W⁄Ÿ^JBàô\»H€Y[ùõ[Ÿ[ÀôŸ[ô\ò]Wÿ€€ù[ù
+à[Ÿ[IŸŸ[Z[öKLãçKYõ\⁄	Àà€€ù[ùœYâ—]ò[X]Hö[€Ÿ⁄Xÿ[ö\⁄»õ‹à⁄XH›[[Y]ûKúXZ◊ÿ⁄‹õ‹[HYÀ€LÀà›[[Y]ûKûó‹ÿ€‹ô_K\Ÿ[[ôœ^⁄YõÀù\Ÿ[[ô◊Ÿ]X›YKâÀà€€ôöYœ]\\ÀëŸ[ô\ò]P€€ù[ù€€ôöY àô\‹€úŸW€Z[YW›\OIÿ\Xÿ][€ã⁄ú€€âÀàô\‹€úŸW‹ÿ⁄[XOPö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ùà[\\ò]\ôOLåKà
+Bà
+Bàô]\õàö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ùõ[Ÿ[›ò[Y]W⁄ú€€äô\Àù^
+Bà^Ÿ\^Ÿ\[€éÇà\‹¬à^HH	”õÿ›[XÿHÿ⁄[ù[[ú…»Yà[[Y]ûKúXZ◊ÿ⁄‹õ‹[àKå[ŸH	’öX⁄Ÿ\€Z][H\û]òY][I¬à\ﬁXHH	–‘íUP–S	»Yà[[Y]ûKûó‹ÿ€‹ôHèHÀå[ŸH
+	”S—TêUI»Yà[[Y]ûKûó‹ÿ€‹ôHèHKçH[ŸH	”’… Bàô]\õàö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ù
+àö[X\ûW›^W⁄Y[ùYöYY]^Kà\ﬁXW‹ö\⁄◊€]ô[Z\ﬁXKàõŸ›òZôX›‹ûOI–XÿŸ[\ò]Yô[ùX»ﬁYŸ[à\][€à^X›Y⁄][àMÃöù⁄[ô›ÀâÀàX€€Ÿ⁄Xÿ[›ôX]€ò\úò]]ôOI—[úŸH[õŸõYŸ[]H€€òŸ[ùò][€àö\⁄⁄[ô»ÿÿ[^ôY[Y⁄X»\‹^X][€ãâ¬à
+BÇôYàù[ó‹ﬁ[ù\⁄^ô\óÿYŸ[ù
+[[Y]ûNà[õ€X[Q]X›[€ë]ô[ùYõŒàYõŸ[ò[ZX‘ô\‹ùö[Œàö[ŸŸ[ÿ⁄[ZXÿ[ô\‹ù
+HOàX›Xÿ[Yö\€‹ûPù[][éÇàûNÇàYà\W⁄Ÿ^NÇàúõ€H€€Ÿ€H[\‹ùŸ[òZBàúõ€H€€Ÿ€KôŸ[òZH[\‹ù\\¬à€Y[ùHŸ[òZKê€Y[ù
+\W⁄Ÿ^OX\W⁄Ÿ^JBàô\»H€Y[ùõ[Ÿ[ÀôŸ[ô\ò]Wÿ€€ù[ù
+à[Ÿ[IŸŸ[Z[öKLãçKYõ\⁄	Àà€€ù[ùœYâ‘ﬁ[ù\⁄^ôH‹\ò][€ò[ù[][àõ‹àŸX›‹à›[[Y]ûKòŸ[ù\ó€]Sã›[[Y]ûKòŸ[ù\ó€€üQH⁄]^O^ÿö[Àúö[X\ûW›^W⁄Y[ùYöYYK\ﬁXO^ÿö[Àö\ﬁXW‹ö\⁄◊€]ô[KâÀà€€ôöYœ]\\ÀëŸ[ô\ò]P€€ù[ù€€ôöY àô\‹€úŸW€Z[YW›\OIÿ\Xÿ][€ã⁄ú€€âÀàô\‹€úŸW‹ÿ⁄[XOUX›Xÿ[Yö\€‹ûPù[][éÇà[\\ò]\ôOLåãà
+Bà
+Bàô]\õàX›Xÿ[Yö\€‹ûPù[][ãõ[Ÿ[›ò[Y]W⁄ú€€äô\Àù^
+Bà^Ÿ\^Ÿ\[€éÇà\‹¬àY\àH	’QTãL»SQTë—Sê÷HP’S”â»Yà[[Y]ûKûó‹ÿ€‹ôHèHÀå[ŸH	’QTãLàQíT”‘ñHSTï	¬à]⁄^H^
+[ù
+[[Y]ûKòŸ[ù\ó€]
+àL
+JVÃéóKûôö[
 
-load_dotenv()
-api_key = os.getenv('GEMINI_API_KEY')
-try:
-    import streamlit as st
-    if hasattr(st, 'secrets') and 'GEMINI_API_KEY' in st.secrets:
-        api_key = st.secrets['GEMINI_API_KEY']
-except Exception:
-    pass
-
-def _get_client():
-    if not api_key:
-        return None
-    try:
-        from google import genai
-        return genai.Client(api_key=api_key)
-    except Exception:
-        return None
-
-def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicReport:
-    client = _get_client()
-    if client:
-        for m in ['gemini-2.5-flash', 'gemini-1.5-flash']:
-            try:
-                from google.genai import types
-                res = client.models.generate_content(
-                    model=m,
-                    contents=f'Analyze marine anomaly at {telemetry.center_lat}N, {telemetry.center_lon}E, SST {telemetry.mean_sst}C, Wind {telemetry.wind_speed}m/s, Z-score {telemetry.z_score}.',
-                    config=types.GenerateContentConfig(
-                        system_instruction='You are a Senior Physical Oceanographer specializing in the Arabian Sea.',
-                        response_mime_type='application/json',
-                        response_schema=HydrodynamicReport,
-                        temperature=0.1,
-                    )
-                )
-                return HydrodynamicReport.model_validate_json(res.text)
-            except Exception:
-                continue
-    is_upwelling = telemetry.mean_sst < 27.0 and telemetry.wind_speed > 6.0
-    return HydrodynamicReport(
-        upwelling_detected=is_upwelling,
-        ekman_transport_assessment='Offshore Ekman drift confirmed along coastal shelf bathymetry.',
-        thermocline_dynamics='Shoaling thermocline observed at 20-30m depth interface.',
-        physical_confidence_score=0.94 if is_upwelling else 0.82
-    )
-
-def run_biogeochemical_agent(telemetry: AnomalyDetectionEvent, hydro: HydrodynamicReport) -> BiogeochemicalReport:
-    client = _get_client()
-    if client:
-        for m in ['gemini-2.5-flash', 'gemini-1.5-flash']:
-            try:
-                from google.genai import types
-                res = client.models.generate_content(
-                    model=m,
-                    contents=f'Evaluate biological risk for Chl-a {telemetry.peak_chlorophyll} mg/m3, Z {telemetry.z_score}, Upwelling={hydro.upwelling_detected}.',
-                    config=types.GenerateContentConfig(
-                        system_instruction='You are a Marine Biogeochemist modeling bloom taxa.',
-                        response_mime_type='application/json',
-                        response_schema=BiogeochemicalReport,
-                        temperature=0.1,
-                    )
-                )
-                return BiogeochemicalReport.model_validate_json(res.text)
-            except Exception:
-                continue
-    taxa = 'Noctiluca scintillans' if telemetry.peak_chlorophyll > 5.0 else 'Trichodesmium erythraeum'
-    hypoxia = 'CRITICAL' if telemetry.z_score >= 3.0 else ('MODERATE' if telemetry.z_score >= 1.5 else 'LOW')
-    return BiogeochemicalReport(
-        primary_taxa_identified=taxa,
-        hypoxia_risk_level=hypoxia,
-        bod_trajectory='Accelerated benthic oxygen depletion expected within 48-72h window.',
-        ecological_threat_narrative='Dense dinoflagellate concentration risking localized pelagic asphyxiation.'
-    )
-
-def run_synthesizer_agent(telemetry: AnomalyDetectionEvent, hydro: HydrodynamicReport, bio: BiogeochemicalReport) -> TacticalAdvisoryBulletin:
-    client = _get_client()
-    if client:
-        for m in ['gemini-2.5-flash', 'gemini-1.5-flash']:
-            try:
-                from google.genai import types
-                res = client.models.generate_content(
-                    model=m,
-                    contents=f'Synthesize operational bulletin for sector {telemetry.center_lat}N, {telemetry.center_lon}E with Taxa={bio.primary_taxa_identified}, Hypoxia={bio.hypoxia_risk_level}.',
-                    config=types.GenerateContentConfig(
-                        system_instruction='You are the Crisis Operations Synthesizer for Project ORCA.',
-                        response_mime_type='application/json',
-                        response_schema=TacticalAdvisoryBulletin,
-                        temperature=0.2,
-                    )
-                )
-                return TacticalAdvisoryBulletin.model_validate_json(res.text)
-            except Exception:
-                continue
-    tier = 'TIER-3 EMERGENCY ACTION' if telemetry.z_score >= 3.0 else 'TIER-2 ADVISORY ALERT'
-    lat_hex = hex(int(telemetry.center_lat * 100))[2:].zfill(4)
-    lon_hex = hex(int(telemetry.center_lon * 100))[2:].zfill(4)
-    return TacticalAdvisoryBulletin(
-        alert_tier=tier,
-        target_geography=f'Sector {telemetry.center_lat:.2f}N, {telemetry.center_lon:.2f}E (Arabian Sea / Coastal Grid)',
-        operational_directives=[
-            'Dispatch automated surface vessel (ASV) for dissolved oxygen profiling.',
-            'Issue maritime advisory warning artisanal fisheries of benthic hypoxia zone.',
-            'Activate satellite high-cadence multispectral tasking over designated corridor.'
-        ],
-        navic_hex_payload=f'0xORCA{lat_hex}{lon_hex}F8A12B004E1D9C'
-    )
+Bà€ó⁄^H^
+[ù
+[[Y]ûKòŸ[ù\ó€€à
+àL
+JVÃéóK
