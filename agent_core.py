@@ -14,7 +14,16 @@ from schemas import (
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# Resolve API key from Streamlit secrets (cloud) or environment variable (local)
+api_key = os.getenv("GEMINI_API_KEY")
+try:
+    import streamlit as st
+    if "GEMINI_API_KEY" in st.secrets:
+        api_key = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    pass
+
+client = genai.Client(api_key=api_key)
 MODEL_NAME = "gemini-3.6-flash"
 
 def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicReport:
