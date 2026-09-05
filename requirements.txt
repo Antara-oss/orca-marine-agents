@@ -1,8 +1,7 @@
 streamlit
 folium
 streamlit-folium
-numpy
-xarray
-netCDF4
 pydantic
-matplotlib
+google-genai
+python-dotenv
+python-docx
