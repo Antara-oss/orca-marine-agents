@@ -34,7 +34,6 @@ st.markdown("""
         color: #D1D5DB;
     }
     
-    /* Top Global Header */
     .orca-nav {
         background: linear-gradient(180deg, #0A1324 0%, #060B17 100%);
         border: 1px solid #16263D;
@@ -64,7 +63,6 @@ st.markdown("""
         margin-top: 3px;
     }
     
-    /* Radar Live Pulse Indicator */
     .status-badge {
         display: inline-flex;
         align-items: center;
@@ -94,7 +92,6 @@ st.markdown("""
         100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
     }
     
-    /* Telemetry Quick Cards */
     .telemetry-card {
         background: #070F1E;
         border: 1px solid #132238;
@@ -131,7 +128,6 @@ st.markdown("""
         margin-top: 4px;
     }
     
-    /* Agent Execution Log Containers */
     .agent-box {
         background: #08101F;
         border: 1px solid #14233A;
@@ -183,7 +179,6 @@ st.markdown("""
         font-weight: 600;
     }
     
-    /* Downlink Hex Frame Monospace */
     .downlink-terminal {
         background: #02050B;
         border: 1px solid #13243C;
@@ -228,7 +223,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Configuration & Sector Select
 st.sidebar.markdown("<div style=\"font-size:0.75rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#64748B; margin-bottom:12px; font-family:'JetBrains Mono';\">Surveillance Sector</div>", unsafe_allow_html=True)
 
 selected_preset = st.sidebar.selectbox(
@@ -296,12 +290,13 @@ col_map, col_analysis = st.columns([5, 6], gap="large")
 with col_map:
     st.markdown("<div style=\"font-size:0.8rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#94A3B8; margin-bottom:8px; font-family:'JetBrains Mono';\">Geospatial Tactical Projection</div>", unsafe_allow_html=True)
     
+    # Clean Dark Basemap without requiring API keys
     tactical_map = folium.Map(
         location=[c_lat, c_lon],
         zoom_start=7,
-        tiles="CartoDB dark_matter",
-        control_scale=False,
-        attributionControl=False
+        tiles="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        attr='&copy; <a href="https://carto.com/">CARTO</a>',
+        control_scale=False
     )
     
     tier_color = "#FF3366" if c_z >= 3.0 else ("#FFB020" if c_z >= 1.5 else "#00E5FF")
@@ -313,13 +308,13 @@ with col_map:
         weight=1.5,
         fill=True,
         fill_color=tier_color,
-        fill_opacity=0.22,
+        fill_opacity=0.25,
         tooltip=f"Vector {telemetry.event_id} | Z-Score: {c_z} Sigma"
     ).add_to(tactical_map)
 
     folium.CircleMarker(
         location=[c_lat, c_lon],
-        radius=4,
+        radius=5,
         color="#FFFFFF",
         weight=2,
         fill=True,
