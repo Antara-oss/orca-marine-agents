@@ -1,4 +1,4 @@
-import os
+kimport os
 import logging
 import traceback
 import warnings
@@ -38,8 +38,6 @@ def resolve_api_key() -> str:
 
     if not key:
         logger.warning("GEMINI_API_KEY not found in env or st.secrets - running in fallback mode.")
-    elif not key.startswith("AIzaSy"):
-        logger.warning("GEMINI_API_KEY lacks 'AIzaSy' prefix - running in fallback mode.")
 
     return key or ""
 
@@ -63,7 +61,7 @@ def extract_validated_text(res) -> str:
 
 def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicReport:
     api_key = resolve_api_key()
-    if api_key and api_key.startswith("AIzaSy"):
+    if api_key:
         try:
             from google import genai
             from google.genai import types
@@ -97,7 +95,7 @@ def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicRepo
     else:
         LAST_RUN_STATUS["hydrodynamic"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY not configured",
+            "error": "No GEMINI_API_KEY found in Streamlit secrets or environment",
         }
 
     is_upwelling = bool(telemetry.mean_sst < 27.0 and telemetry.wind_speed > 6.0)
@@ -113,7 +111,7 @@ def run_biogeochemical_agent(
     telemetry: AnomalyDetectionEvent, hydro: HydrodynamicReport
 ) -> BiogeochemicalReport:
     api_key = resolve_api_key()
-    if api_key and api_key.startswith("AIzaSy"):
+    if api_key:
         try:
             from google import genai
             from google.genai import types
@@ -147,7 +145,7 @@ def run_biogeochemical_agent(
     else:
         LAST_RUN_STATUS["biogeochemical"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY not configured",
+            "error": "No GEMINI_API_KEY found in Streamlit secrets or environment",
         }
 
     taxa = (
@@ -174,7 +172,7 @@ def run_synthesizer_agent(
     bio: BiogeochemicalReport,
 ) -> TacticalAdvisoryBulletin:
     api_key = resolve_api_key()
-    if api_key and api_key.startswith("AIzaSy"):
+    if api_key:
         try:
             from google import genai
             from google.genai import types
@@ -209,7 +207,7 @@ def run_synthesizer_agent(
     else:
         LAST_RUN_STATUS["synthesizer"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY not configured",
+            "error": "No GEMINI_API_KEY found in Streamlit secrets or environment",
         }
 
     tier = "TIER-3 EMERGENCY ACTION" if telemetry.z_score >= 3.0 else "TIER-2 ADVISORY ALERT"
