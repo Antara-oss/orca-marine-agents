@@ -1,4 +1,4 @@
-import streamlit as st
+kkimport streamlit as st
 import folium
 from streamlit_folium import st_folium
 from schemas import AnomalyDetectionEvent
@@ -11,7 +11,7 @@ from agent_core import (
 
 st.set_page_config(page_title="ORCA Oceanic Sentry", layout="wide")
 
-st.title("PROJECT ORCA • NAVAL OCEANIC SENTRY")
+st.title("PROJECT ORCA - NAVAL OCEANIC SENTRY")
 st.caption("AUTONOMOUS MULTI-AGENT BIOGEOCHEMICAL & PHYSICAL DISASTER NETWORK")
 
 presets = {
@@ -130,7 +130,7 @@ with col2:
 
         except Exception as e:
             st.error(f"Pipeline orchestration error: {e}")
-            st.caption("Inspect 'Manage app → Logs' for stack trace.")
+            st.caption("Inspect Manage app -> Logs for the stack trace.")
 
     if "tactical" in st.session_state:
         hydro = st.session_state.hydro
@@ -139,10 +139,8 @@ with col2:
         run_status = st.session_state.get("run_status", {})
 
         if any(v.get("source") == "fallback" for v in run_status.values()):
-            with st.expander("⚠️ Heuristic Fallback Invocation Notice", expanded=True):
-                st.caption(
-                    "One or more agents operated via deterministic heuristic logic due to upstream API constraints:"
-                )
+            with st.expander("Fallback Invocation Notice", expanded=True):
+                st.caption("One or more agents operated via deterministic heuristic logic:")
                 for node, info in run_status.items():
                     src = info.get("source", "unknown").upper()
                     err = info.get("error")

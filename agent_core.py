@@ -1,4 +1,4 @@
-kimport os
+import os
 import logging
 import traceback
 import warnings
@@ -28,7 +28,6 @@ def resolve_api_key() -> str:
     key = os.getenv("GEMINI_API_KEY")
     try:
         import streamlit as st
-
         if hasattr(st, "secrets") and "GEMINI_API_KEY" in st.secrets:
             key = st.secrets["GEMINI_API_KEY"]
     except Exception:
@@ -38,13 +37,9 @@ def resolve_api_key() -> str:
         key = str(key).strip().strip("\"'")
 
     if not key:
-        logger.warning(
-            "GEMINI_API_KEY not found in env or st.secrets — defaulting to heuristic mode."
-        )
+        logger.warning("GEMINI_API_KEY not found in env or st.secrets - running in fallback mode.")
     elif not key.startswith("AIzaSy"):
-        logger.warning(
-            "GEMINI_API_KEY does not start with expected prefix 'AIzaSy' — defaulting to heuristic mode."
-        )
+        logger.warning("GEMINI_API_KEY lacks 'AIzaSy' prefix - running in fallback mode.")
 
     return key or ""
 
@@ -56,16 +51,12 @@ def extract_validated_text(res) -> str:
     candidates = getattr(res, "candidates", None)
     if candidates and len(candidates) > 0:
         finish_reason = getattr(candidates[0], "finish_reason", None)
-        if finish_reason and str(finish_reason).upper() in [
-            "SAFETY",
-            "RECITATION",
-            "BLOCKLIST",
-        ]:
-            raise ValueError(f"Generation halted by safety policy: {finish_reason}")
+        if finish_reason and str(finish_reason).upper() in ["SAFETY", "RECITATION", "BLOCKLIST"]:
+            raise ValueError(f"Generation blocked by policy: {finish_reason}")
 
     text = getattr(res, "text", None)
     if not text or not str(text).strip():
-        raise ValueError("Model candidate produced an empty response body.")
+        raise ValueError("Model response text is empty.")
 
     return text.strip()
 
@@ -101,12 +92,12 @@ def run_hydrodynamic_agent(telemetry: AnomalyDetectionEvent) -> HydrodynamicRepo
 
         except Exception as exc:
             err_msg = f"{type(exc).__name__}: {str(exc)}"
-            logger.error("Hydrodynamic Agent failure: %s\n%s", err_msg, traceback.format_exc())
+            logger.error("Hydrodynamic Agent failed: %s\n%s", err_msg, traceback.format_exc())
             LAST_RUN_STATUS["hydrodynamic"] = {"source": "fallback", "error": err_msg}
     else:
         LAST_RUN_STATUS["hydrodynamic"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY (AIzaSy...) not detected",
+            "error": "Valid GEMINI_API_KEY not configured",
         }
 
     is_upwelling = bool(telemetry.mean_sst < 27.0 and telemetry.wind_speed > 6.0)
@@ -151,12 +142,12 @@ def run_biogeochemical_agent(
 
         except Exception as exc:
             err_msg = f"{type(exc).__name__}: {str(exc)}"
-            logger.error("Biogeochemical Agent failure: %s\n%s", err_msg, traceback.format_exc())
+            logger.error("Biogeochemical Agent failed: %s\n%s", err_msg, traceback.format_exc())
             LAST_RUN_STATUS["biogeochemical"] = {"source": "fallback", "error": err_msg}
     else:
         LAST_RUN_STATUS["biogeochemical"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY (AIzaSy...) not detected",
+            "error": "Valid GEMINI_API_KEY not configured",
         }
 
     taxa = (
@@ -213,12 +204,12 @@ def run_synthesizer_agent(
 
         except Exception as exc:
             err_msg = f"{type(exc).__name__}: {str(exc)}"
-            logger.error("Synthesizer Agent failure: %s\n%s", err_msg, traceback.format_exc())
+            logger.error("Synthesizer Agent failed: %s\n%s", err_msg, traceback.format_exc())
             LAST_RUN_STATUS["synthesizer"] = {"source": "fallback", "error": err_msg}
     else:
         LAST_RUN_STATUS["synthesizer"] = {
             "source": "fallback",
-            "error": "Valid GEMINI_API_KEY (AIzaSy...) not detected",
+            "error": "Valid GEMINI_API_KEY not configured",
         }
 
     tier = "TIER-3 EMERGENCY ACTION" if telemetry.z_score >= 3.0 else "TIER-2 ADVISORY ALERT"
