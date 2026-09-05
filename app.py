@@ -11,7 +11,7 @@ from agent_core import (
 
 st.set_page_config(page_title='ORCA Oceanic Sentry', layout='wide')
 
-st.title('PROJECT ORCA - NAVAL OCEANIC SENTRY')
+st.title('PROJECT ORCA • NAVAL OCEANIC SENTRY')
 st.caption('AUTONOMOUS MULTI-AGENT BIOGEOCHEMICAL & PHYSICAL DISASTER NETWORK')
 
 presets = {
@@ -51,8 +51,7 @@ with col1:
     tactical_map = folium.Map(
         location=[c_lat, c_lon],
         zoom_start=7,
-        tiles='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        attr='CARTO'
+        tiles='OpenStreetMap'
     )
     t_color = 'red' if c_z >= 3.0 else ('orange' if c_z >= 1.5 else 'blue')
     folium.Circle(location=[c_lat, c_lon], radius=40000, color=t_color, fill=True, fill_opacity=0.3).add_to(tactical_map)
@@ -71,11 +70,11 @@ with col2:
 
     if run_btn:
         with st.status('Running Multi-Agent Telemetry Ingestion...', expanded=True) as s:
-            st.write('Node 1: Oceanographer analyzing Ekman upwelling...')
+            st.write('Node 1: Physical Oceanographer analyzing Ekman dynamics...')
             hydro = run_hydrodynamic_agent(telemetry)
-            st.write('Node 2: Marine Biogeochemist modeling bloom taxa...')
+            st.write('Node 2: Marine Biogeochemist modeling taxa surge...')
             bio = run_biogeochemical_agent(telemetry, hydro)
-            st.write('Node 3: Synthesizer computing operational directives...')
+            st.write('Node 3: Synthesizer formulating operational directives...')
             tactical = run_synthesizer_agent(telemetry, hydro, bio)
             s.update(label='Consensus Finalized', state='complete', expanded=False)
             st.session_state.hydro = hydro
