@@ -33,7 +33,7 @@ if not api_key:
     )
 
 # 2. Correct Model Identifier
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 
 client = genai.Client(api_key=api_key)
 
