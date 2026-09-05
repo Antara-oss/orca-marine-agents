@@ -11,7 +11,7 @@ from agent_core import (
 
 st.set_page_config(page_title='ORCA Oceanic Sentry', layout='wide')
 
-st.title('ORCA - NAVAL OCEANIC SENTRY')
+st.title('PROJECT ORCA - NAVAL OCEANIC SENTRY')
 st.caption('AUTONOMOUS MULTI-AGENT BIOGEOCHEMICAL & PHYSICAL DISASTER NETWORK')
 
 presets = {
@@ -42,7 +42,7 @@ telemetry = AnomalyDetectionEvent(
     mean_sst=c_sst,
     wind_speed=c_wind,
     z_score=c_z
-y
+)
 
 col1, col2 = st.columns([5, 6], gap='large')
 
@@ -62,7 +62,7 @@ with col1:
     m1, m2, m3, m4 = st.columns(4)
     m1.metric('SST', f'{c_sst:.1f} C')
     m2.metric('Chl-a', f'{c_chl:.2f}')
-    m3.metric('Wind', fg{3_wind:.1f} m/s')
+    m3.metric('Wind', f'{c_wind:.1f} m/s')
     m4.metric('Z-Score', f'{c_z:.2f}')
 
 with col2:
@@ -82,16 +82,15 @@ with col2:
             st.session_state.bio = bio
             st.session_state.tactical = tactical
 
-
     if 'tactical' in st.session_state:
         hydro = st.session_state.hydro
         bio = st.session_state.bio
         tactical = st.session_state.tactical
 
         with st.expander('Node 1: Physical Oceanographer', expanded=True):
-            st.write(f'*ZUpwelling:** {"Active" if hydro.upwelling_detected else "Quiescent"}')
-            st.write(f'*ZEkman Transport:** {hydro.ekman_transport_assessment}')
-            st.write(f'*ZThermocline:** {hydro.thermocline_dynamics}')
+            st.write(f'**Upwelling:** {"Active" if hydro.upwelling_detected else "Quiescent"}')
+            st.write(f'**Ekman Transport:** {hydro.ekman_transport_assessment}')
+            st.write(f'**Thermocline:** {hydro.thermocline_dynamics}')
             st.caption(f'Confidence: {hydro.physical_confidence_score * 100:.0f}%')
 
         with st.expander('Node 2: Marine Biogeochemist', expanded=True):
@@ -105,6 +104,6 @@ with col2:
             st.write(f'**Target Sector:** {tactical.target_geography}')
             st.write('**Operational Directives:**')
             for d in tactical.operational_directives:
-                st.write(f"- {d}')
+                st.write(f'- {d}')
             st.write('**NavIC S-Band Payload (240-Bit Frame):**')
             st.code(tactical.navic_hex_payload, language='text')
