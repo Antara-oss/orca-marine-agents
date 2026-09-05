@@ -1,7 +1,6 @@
 streamlit
-folium
 streamlit-folium
-pydantic
-google-genai
+folium
+google-genai>=0.1.1
+pydantic>=2.0.0
 python-dotenv
-python-docx
